@@ -6,9 +6,7 @@
 %I had no unlawful knowledge of the questions or answers prior to this 
 %exercise and that I have neither given nor received assistance in answering 
 %any of the questions during this exam.
-
-
-function  Z = calcSTZCR(sig,l,ovrlp,window_type)
+%
 %calcSTZCR
 % Computes the short time zero crossing rate
 %
@@ -18,6 +16,9 @@ function  Z = calcSTZCR(sig,l,ovrlp,window_type)
 %           ovrlp = window overlap
 %           window_type = 'rectwin' or 'hamming'           
 % OUTPUT:	Z = zero crossing rate 
+
+
+function  Z = calcSTZCR(sig,l,ovrlp,window_type)
 
 
 Ns = max(size(sig));

@@ -11,3 +11,6 @@ clear;
 clc;
 
 [sig,fs,regions] = doVAD('AudioFiles/vowel_i.wav'); 
+%[sig,fs,regions] = doVAD('AudioFiles/vowel_e.wav'); 
+%[sig,fs,regions] = doVAD('AudioFiles/vowel_a.wav'); 
+%[sig,fs,regions] = doVAD('AudioFiles/cherry.wav'); 

@@ -5,15 +5,16 @@
 % I do hereby affirm, on my honor as a student at the end of this exercise, 
 % that I had no unlawful knowledge of the questions or answers prior to this exercise 
 % and that I have neither given nor received assistance in answering any of the questions during this exercise.
-
-
-function energyST = calcSTE(sig,window_len,frame_overlap, window_type)
+%
 %CALCSTE Summary of this function goes here
 %   Input Arguments
 %   filename - filename of the speech file to process
 %   frame_len - window length
 %   frame_overlap - window overlap 
 %   window_type - type of window to use
+
+
+function energyST = calcSTE(sig,window_len,frame_overlap, window_type)
 
 
 %construct window depending on window_type
