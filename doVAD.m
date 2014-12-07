@@ -1,6 +1,13 @@
-
-[sig,fs] = wavread('AudioFiles/vowel_a');
-
+%read wav files 
+[v_i,fs] = wavread('AudioFiles/vowel_i.wav');
+[v_e,fs] = wavread('AudioFiles/vowel_e.wav');
+[v_a,fs] = wavread('AudioFiles/vowel_a.wav');
+[s_1,fs] = wavread('AudioFiles/IamAwesome.wav');
+[s_2,fs] = wavread('AudioFiles/WhatSheSaid.wav');
+[s_3,fs] = wavread('AudioFiles/BakitMatagalAngSundoKo.wav');
+[w_1,fs] = wavread('AudioFiles/cherry.wav');
+[w_2,fs] = wavread('AudioFiles/banana.wav');
+[w_3,fs] = wavread('AudioFiles/apple.wav');
 
 % Noise reduction code
 % n = 7;
@@ -12,8 +19,8 @@
 
 frame_len = 320; %20ms
 
-z = calcSTZCR(sig,frame_len,frame_len/4,'Rectangular');
-energy = calcSTE(sig,frame_len,frame_len/4,'Hamming');
+z = calcSTZCR(v_i,frame_len,frame_len/4,'rectwin');
+energy = calcSTE(v_i,frame_len,frame_len/4,'hamming');
 
 
 % %assume first 50 frames are noise
