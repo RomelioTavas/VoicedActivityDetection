@@ -32,7 +32,7 @@ sig_windowed = diag(sparse(wndw)) * sig_framed;
 
 % compute the short time energy of the signal
 energyST = sum(sig_windowed.^2)/window_len;
-energyST = energyST' %column vector
+energyST = energyST'; %column vector
 
 
 end
