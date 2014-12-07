@@ -44,7 +44,7 @@ for i = 1:cols
         Z(i) = sum(x);
 end
 
-
+Z = normc(Z);
 
 % 
 % for n = 1+window_len:Ns; % calcola la Short-Time Average ZCR
