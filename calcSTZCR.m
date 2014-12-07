@@ -7,17 +7,53 @@
 %exercise and that I have neither given nor received assistance in answering 
 %any of the questions during this exam.
 
-[s,fS] = wavread('BakitMatagalAngSundoKo');
 
-Nframe = 100; % number of frames
-Ns = max(size(s));
+function  Z = calcSTZCR(sig,window_len,window_overlap,window_type)
 
 
-for n = 1+Nframe:Ns; %Calculate Short Time ZCR
-    Z(n,1) = sum(abs(sign(s(n-Nframe+1:n))- ...
-    sign(s(n-Nframe:n-1)))/2)/Nframe;
-end;
-Z=Z*fS/1000; % Zero-Crossing per ms
-% plot Z(t):
-t = (1/fS)*[1:max(size(Z))];
-plot(t,Z); xlabel('time (s)'); ylabel('ZCR/ms(t)');
+Ns = max(size(sig));
+
+%construct window depending on window_type
+if(strcmp(window_type,'Rectangular'))
+    window = rectwin(window_len);
+elseif (strcmp(window_type,'Hamming'))
+    window = hamming(window_len);
+end
+
+% Framing and windowing of the signal 
+sig_framed = buffer(sig, window_len, window_overlap, 'nodelay');
+sig_windowed = diag(sparse(window)) * sig_framed;
+
+disp(size(sig_windowed));
+
+cols = size(sig_windowed,2);
+
+padding = zeros(1,cols);
+
+sig_windowed = vertcat(sig_windowed,padding);
+
+Z = zeros(cols,1);
+
+for i = 1:cols
+  
+    for j = 1:window_len
+    
+        x = abs(sig_windowed(j+1,i)-sig_windowed(j,i))/(2*window_len);
+        
+    end
+        Z(i) = sum(x);
+end
+
+
+
+% 
+% for n = 1+window_len:Ns; % calcola la Short-Time Average ZCR
+%     Z_init(n,1) = sum(abs(sign(sig(n-window_len+1:n))- ...
+%     sign(sig(n-window_len:n-1)))/2)/window_len;
+% end;
+% 
+% 
+% 
+% Z = sum(Z);
+
+end
