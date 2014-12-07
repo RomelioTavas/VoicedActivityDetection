@@ -17,7 +17,7 @@ clc;
 [sig,fs,regions] = doVAD('AudioFiles/WhatSheSaid.wav'); 
 [sig,fs,regions] = doVAD('AudioFiles/BakitMatagalAngSundoKo.wav'); 
 [sig,fs,regions] = doVAD('AudioFiles/IAmAwesome.wav'); 
-[sig,fs,regions] = doVAD('AudioFiles/long_sen.wav'); 
+
 % %getting initial regions
 % r = [];
 % for i = 1 : length(vad)-1

@@ -41,7 +41,7 @@ Sc = 1000;
 w = (energy .* (1-z)) * Sc; 
 w_10 = w(1:10);
 %define trigger
-alpha = 5*var(w_10)^-0.92;
+alpha = 0.3*var(w_10)^-0.92;
 t = mean(w_10) + alpha * var(w_10);
 
 vad = zeros(length(z),1);
@@ -57,13 +57,22 @@ for i = 1:length(z)
 end
 
 %smooth the vad to remove small transitions. span was selected empirically 
-vad2 = smooth(vad,11)
-
-for i = 1:length(vad2)
-    if vad2(i)>= 0.5 
-        vad2(i) = 1;
+vad2 = smooth(vad,3);
+vad3 = vad2;
+for i = 1:length(vad3)
+    if vad3(i)>= 0.5 
+        vad3(i) = 1;
     else 
-        vad2(i) = 0;
+        vad3(i) = 0;
+    end
+end
+vad4 = smooth(vad3,11);
+vad5 = vad4;
+for i = 1:length(vad)
+    if vad5(i)>= 0.2
+        vad5(i) = 1;
+    else 
+        vad5(i) = 0;
     end
 end
 
@@ -78,6 +87,9 @@ hold on;
 plot(z);
 plot(vad,'r');
 plot(vad2,'g');
+plot(vad3,'m')
+plot(vad4,'c')
+plot(vad5,'k')
 hold off;
 legend('ZCR','Voiced Region');
 %legend('ZCR','Voiced Region');
