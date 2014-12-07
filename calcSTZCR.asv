@@ -19,7 +19,7 @@ Ns = max(size(sig));
 % elseif (strcmp(window_type,'Hamming'))
 %     window = hamming(window_len);
 % end
-wndw = window(window_type,window_len);
+wndw = window(
 
 % Framing and windowing of the signal 
 sig_framed = buffer(sig, window_len, window_overlap, 'nodelay');
