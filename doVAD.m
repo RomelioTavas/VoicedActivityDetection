@@ -21,13 +21,6 @@ function [sig,fs,regions] = doVAD(wave)
 
 
 [sig,fs] = wavread(wave);
-% Noise reduction code
-% n = 7;
-% beginFreq = 2100 / (fs/2);
-% endFreq = 12000 / (fs/2);
-% [b,a] = butter(n, [beginFreq, endFreq], 'bandpass');
-
-% sig = filter(b,a,sig);
 
 frame_len = 320; %20ms
 
@@ -35,18 +28,21 @@ z = calcSTZCR(sig,frame_len,frame_len/4,'rectwin');
 energy = calcSTE(sig,frame_len,frame_len/4,'hamming');
 
 
-% %assume first 50 frames are noise
 
-Sc = 1000;
+
+Sc = 1000; %Scale factor
+%define w as a function that uses STE and STZCR to compute for VAD
 w = (energy .* (1-z)) * Sc; 
+
+%Assume first 10 frames are noise
 w_10 = w(1:10);
+
 %define trigger
 alpha = 0.3*var(w_10)^-0.92;
 t = mean(w_10) + alpha * var(w_10);
 
+%Initialize vad variable
 vad = zeros(length(z),1);
-
-
 
 for i = 1:length(z)
     if w(i)>t

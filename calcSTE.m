@@ -1,3 +1,8 @@
+%Tavas, Romelio Jr. 2011-11218
+%Gomez, Emilio Vicente 2009-22091
+
+
+%This is a THD04 code with some modifications
 %Tavas, 2011-11218
 %Palafox, 2009-53518
 
@@ -17,18 +22,11 @@
 function energyST = calcSTE(sig,window_len,frame_overlap, window_type)
 
 
-%construct window depending on window_type
-% if(strcmp(window_type,'Rectangular'))
-%     window = rectwin(window_len);
-% elseif (strcmp(window_type,'Hamming'))
-%     window = hamming(window_len);
-% end
 wndw = window(window_type,window_len);
 
 % Framing and windowing of the signal 
 sig_framed = buffer(sig, window_len, frame_overlap, 'nodelay');
 sig_windowed = diag(sparse(wndw)) * sig_framed;
-
 
 
 % compute the short time energy of the signal

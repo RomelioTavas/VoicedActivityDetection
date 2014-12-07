@@ -23,28 +23,23 @@ function  Z = calcSTZCR(sig,l,ovrlp,window_type)
 
 Ns = max(size(sig));
 
-%construct window depending on window_type
-% if(strcmp(window_type,'Rectangular'))
-%     window = rectwin(window_len);
-% elseif (strcmp(window_type,'Hamming'))
-%     window = hamming(window_len);
-% end
+%construct window according to type and length
 wndw = window(window_type,l);
 
 % Framing and windowing of the signal 
 sig_framed = buffer(sig, l, ovrlp, 'nodelay');
 sig_windowed = diag(sparse(wndw)) * sig_framed;
 
-disp(size(sig_windowed));
-
+%pad each frame with a zero at the end to avoid
+%index out of bounds exception later on the ZCR computation
 cols = size(sig_windowed,2);
-
 padding = zeros(1,cols);
-
 sig_windowed = vertcat(sig_windowed,padding);
 
+%initialize Z variable
 Z = zeros(cols,1);
 
+%Compute for ZCR
 for i = 1:cols
   
     for j = 1:l
@@ -55,4 +50,5 @@ for i = 1:cols
         Z(i) = sum(x);
 end
     Z = Z./max(Z);
+    
 end
