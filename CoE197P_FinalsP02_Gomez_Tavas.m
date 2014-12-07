@@ -11,6 +11,41 @@ clear;
 clc;
 
 [sig,fs,regions] = doVAD('AudioFiles/vowel_i.wav'); 
-%[sig,fs,regions] = doVAD('AudioFiles/vowel_e.wav'); 
-%[sig,fs,regions] = doVAD('AudioFiles/vowel_a.wav'); 
+[sig,fs,regions] = doVAD('AudioFiles/vowel_e.wav'); 
+[sig,fs,regions] = doVAD('AudioFiles/vowel_a.wav'); 
 %[sig,fs,regions] = doVAD('AudioFiles/cherry.wav'); 
+
+% %getting initial regions
+% r = [];
+% for i = 1 : length(vad)-1
+%     if vad(i+1) ~= vad(i)
+%         r = [r i+1];
+%     end
+% end
+% r
+%smoothing out regions: removes the transitions if they are less than 10
+%frames away from each other. 10 frames was chosen empirically 
+% r2 = [r(1)];
+% for i = 1:length(r)
+%     if i == length(r)
+%         if r(i) - r(i-1) < 10
+%         else
+%             r2(length(r2)) = r(i);
+%         end
+%     else 
+%         if r(i+1) - r2(length(r2)) < 10
+%             r2(length(r2)) = r(i+1);
+%         else
+%             r2 = [r2 r(i+1)];
+%         end
+%     end 
+% end
+% r2
+% %generating VAD2 with smoothed out transitions
+% vad2 = [zeros(1,r2(1)-1)];
+% for i = 2:2:length(r2)
+%    vad2 = [vad2 ones(1,r2(i)-r2(i-1)-1)];
+% end 
+% if length(vad2) < length(vad)
+%     vad2 = [vad2 zeros(1,length(vad)-length(vad2))];
+% end

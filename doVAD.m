@@ -55,41 +55,19 @@ for i = 1:length(z)
         vad(i) = 0;
     end
 end
-%getting initial regions
-r = [];
-for i = 1 : length(vad)-1
-    if vad(i+1) ~= vad(i)
-        r = [r i+1];
+
+%smooth the vad to remove small transitions. span was selected empirically 
+vad2 = smooth(vad,11)
+
+for i = 1:length(vad2)
+    if vad2(i)>= 0.5 
+        vad2(i) = 1;
+    else 
+        vad2(i) = 0;
     end
 end
-r
-%smoothing out regions: removes the transitions if they are less than 10
-%frams away from each other. 10 frames was chosen empirically 
-r2 = [r(1)];
-for i = 1:length(r)
-    if i == length(r)
-        if r(i) - r(i-1) < 10
-        else
-            r2(length(r2)) = r(i);
-        end
-    else 
-        if r(i+1) - r2(length(r2)) < 10
-            r2(length(r2)) = r(i+1);
-        else
-            r2 = [r2 r(i+1)];
-        end
-    end 
-end
-r2
-vad2 = [zeros(1,r2(1)-1)];
-for i = 2:2:length(r2)
-   vad2 = [vad2 ones(1,r2(i)-r2(i-1)-1)];
-end 
-if length(vad2) < length(vad)
-    vad2 = [vad2 zeros(1,length(vad)-length(vad2))];
-end
 
-regions = zeros(2,length(r2)/2);
+regions = 1;
 
 % startpt = find(vad,1,'first') * frame_len;
 % endpt = find(vad,1,'last') * frame_len;
