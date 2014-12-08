@@ -24,5 +24,7 @@ clc;
 [sig7,fs7,regions7] = doVAD('AudioFiles/YouAreAwesome.wav');
 [sig8,fs8,regions8] = doVAD('AudioFiles/WeAreYoung.wav'); 
 [sig9,fs9,regions9] = doVAD('AudioFiles/ShakeItOff.wav'); 
- 
+
+
+%[sig10,fs10,regions10] = doVAD('AudioFiles/longsentence.wav'); 
 

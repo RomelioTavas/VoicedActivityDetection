@@ -23,12 +23,9 @@ function [sig,fs,regions] = doVAD(wave)
 [sig,fs] = wavread(wave);
 
 frame_len = 320; %20ms
-
+%calculate the STZCR and STE 
 z = calcSTZCR(sig,frame_len,frame_len/4,'rectwin');
 energy = calcSTE(sig,frame_len,frame_len/4,'hamming');
-
-
-
 
 Sc = 1000; %Scale factor
 %define w as a function that uses STE and STZCR to compute for VAD
@@ -37,13 +34,15 @@ w = (energy .* (1-z)) * Sc;
 %Assume first 10 frames are noise
 w_10 = w(1:10);
 
-%define trigger
+%The trigger level for the VAD was selected
+%http://research.ijcaonline.org/iccia/number6/iccia1046.pdf
 alpha = 0.3*var(w_10)^-0.92;
 t = mean(w_10) + alpha * var(w_10);
 
 %Initialize vad variable
 vad = zeros(length(z),1);
 
+%Voice Activity is detected if the w(i) is greater than the trigger.
 for i = 1:length(z)
     if w(i)>t
         vad(i) = 1;
@@ -51,21 +50,21 @@ for i = 1:length(z)
         vad(i) = 0;
     end
 end
-
-%smooth the vad to remove small transitions. span was selected empirically 
-vad2 = smooth(vad,3);
+%Smoothing was done twice to remove the narrow transisitions. 
+%Spans and threshold levels were selected empirically.  
+vad2 = smooth(vad,3);   %moving average over 3 samples. 
 vad3 = vad2;
 for i = 1:length(vad3)
-    if vad3(i)>= 0.5 
+    if vad3(i)>= 0.5 	%then quantizing back to 1 or 0 
         vad3(i) = 1;
     else 
         vad3(i) = 0;
     end
 end
-vad4 = smooth(vad3,11);
+vad4 = smooth(vad3,11); %moving average over 11 samples
 vad5 = vad4;
 for i = 1:length(vad)
-    if vad5(i)>= 0.2
+    if vad5(i)>= 0.2    %because of the larger span the threshold was lower
         vad5(i) = 1;
     else 
         vad5(i) = 0;
@@ -98,8 +97,10 @@ figure('name',wave);
 x = 1:length(sig);
 ymarker = sig(regions_plot);
 hold on;
-plot(x,sig,'b',regions_plot,ymarker,'r*','MarkerSize',20);
+plot(x,abs(sig),'b',regions_plot,ymarker,'r*','MarkerSize',20);
 legend('Speech Signal','Start and End Points');
+xlabel('n sample'); ylabel('x[n]');
+title('Speech Signal');
 hold off;
 
 end
