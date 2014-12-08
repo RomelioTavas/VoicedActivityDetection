@@ -72,23 +72,34 @@ for i = 1:length(vad)
     end
 end
 
-regions = 1;
 
-% startpt = find(vad,1,'first') * frame_len;
-% endpt = find(vad,1,'last') * frame_len;
-% figure;
-% plot(abs(sig));
-figure;
+
+%collect all speech segment regions
+
+%conversion factor of frame number to sample number
+frame_equiv = frame_len - (frame_len/4);
+
+%collect all the indexes of  the rising and falling edge of the VAD signal
+ind = vad5>0;
+edge_indices= find([0;abs(diff(ind))>0]);
+
+%divide into 2 x N matrix, where N is the number of speech segments
+% to correspond for start and end point of the signal
+regions = buffer(edge_indices,2,0,'nodelay');
+
+%convert regions to sample number
+regions = regions.*frame_equiv;
+regions_plot = edge_indices.*frame_equiv; %this is just for plootting
+
+
+%Plot the speech signal with each speech segment marked
+figure('name',wave);
+
+x = 1:length(sig);
+ymarker = sig(regions_plot);
 hold on;
-
-plot(vad5,'k')
+plot(x,sig,'b',regions_plot,ymarker,'r*','MarkerSize',20);
+legend('Speech Signal','Start and End Points');
 hold off;
-legend('ZCR','Voiced Region');
-%legend('ZCR','Voiced Region');
-xlabel('frame number');
-ylabel('ZCR');
-title('zero crossing contour');
-
-
 
 end

@@ -7,47 +7,22 @@
 %exercise and that I have neither given nor received assistance in answering 
 %any of the questions during this exam.
 
-clear;
+clear all;
 clc;
 
-% [sig,fs,regions] = doVAD('AudioFiles/vowel_i.wav'); 
-% [sig,fs,regions] = doVAD('AudioFiles/vowel_e.wav'); 
-% [sig,fs,regions] = doVAD('AudioFiles/vowel_a.wav'); 
-% [sig,fs,regions] = doVAD('AudioFiles/cherry.wav'); 
-[sig,fs,regions] = doVAD('AudioFiles/ShakeItOff.wav'); 
-[sig,fs,regions] = doVAD('AudioFiles/YouAreAwesome.wav'); 
+% One Acoustic Unit
+[sig1,fs1,regions1] = doVAD('AudioFiles/vowel_e.wav'); 
+[sig2,fs2,regions2] = doVAD('AudioFiles/vowel_a.wav'); 
+[sig3,fs3,regions3] = doVAD('AudioFiles/vowel_o.wav'); 
+
+% One Word
+[sig4,fs4,regions4] = doVAD('AudioFiles/Cherry.wav'); 
+[sig5,fs5,regions5] = doVAD('AudioFiles/Orange.wav'); 
+[sig6,fs6,regions6] = doVAD('AudioFiles/Banana.wav'); 
+
+% One Short Sentence
+[sig7,fs7,regions7] = doVAD('AudioFiles/YouAreAwesome.wav');
+[sig8,fs8,regions8] = doVAD('AudioFiles/WeAreYoung.wav'); 
+[sig9,fs9,regions9] = doVAD('AudioFiles/ShakeItOff.wav'); 
  
-% %getting initial regions
-% r = [];
-% for i = 1 : length(vad)-1
-%     if vad(i+1) ~= vad(i)
-%         r = [r i+1];
-%     end
-% end
-% r
-%smoothing out regions: removes the transitions if they are less than 10
-%frames away from each other. 10 frames was chosen empirically 
-% r2 = [r(1)];
-% for i = 1:length(r)
-%     if i == length(r)
-%         if r(i) - r(i-1) < 10
-%         else
-%             r2(length(r2)) = r(i);
-%         end
-%     else 
-%         if r(i+1) - r2(length(r2)) < 10
-%             r2(length(r2)) = r(i+1);
-%         else
-%             r2 = [r2 r(i+1)];
-%         end
-%     end 
-% end
-% r2
-% %generating VAD2 with smoothed out transitions
-% vad2 = [zeros(1,r2(1)-1)];
-% for i = 2:2:length(r2)
-%    vad2 = [vad2 ones(1,r2(i)-r2(i-1)-1)];
-% end 
-% if length(vad2) < length(vad)
-%     vad2 = [vad2 zeros(1,length(vad)-length(vad2))];
-% end
+
