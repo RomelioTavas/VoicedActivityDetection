@@ -80,11 +80,7 @@ regions = 1;
 % plot(abs(sig));
 figure;
 hold on;
-plot(z);
-plot(vad,'r');
-plot(vad2,'g');
-plot(vad3,'m')
-plot(vad4,'c')
+
 plot(vad5,'k')
 hold off;
 legend('ZCR','Voiced Region');
